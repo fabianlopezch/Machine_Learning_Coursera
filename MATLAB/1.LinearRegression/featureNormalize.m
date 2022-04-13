@@ -26,12 +26,15 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
+mu = mean(X); % For matrices, S = mean(X) is a row vector containing the mean value of each column of X.
 
+sigma = std(X); % For matrices, Y = std(X) is a row vector containing the standard deviation of each column of X.
 
+% Feature normalization
+X_norm = X_norm - mu;
 
-
-
-
+% Feature scaling
+X_norm = X_norm ./ sigma;
 
 
 % ============================================================
