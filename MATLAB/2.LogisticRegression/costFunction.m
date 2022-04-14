@@ -20,6 +20,23 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+% *********** Computing the cost function ***********
+z = X*theta; 
+h_theta = sigmoid(z); % Compute the hypothesys function value for each data sample
+A = log(h_theta);
+B = log(1 - h_theta);
+A = -y .* A;
+B = (1 - y) .* B;
+
+J = sum(A - B) ./ m;
+
+% *********** Computing the gradient ***********
+
+for j=1:size(theta)
+    temp = (h_theta - y) .* X(:,j);
+    grad(j) = sum(temp) / m;
+end
+
 
 
 
