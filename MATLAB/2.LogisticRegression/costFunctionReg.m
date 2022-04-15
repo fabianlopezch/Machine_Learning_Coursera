@@ -17,8 +17,33 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+z = X*theta; 
+h_theta = sigmoid(z); % Compute the hypothesys function value for each data sample
+A = log(h_theta);
+B = log(1 - h_theta);
+A = -y .* A;
+B = (1 - y) .* B;
+
+J = sum(A - B) ./ m;
+
+% ****** Adding regularization term
+
+Reg_term = (lambda/(2*m)) * ((theta' * theta) - (theta(1)^2)); 
+J = J + Reg_term;
 
 
+% *********** Computing the gradient ***********
+
+for j=1:size(theta)
+    if j==1
+        temp = (h_theta - y) .* X(:,j);
+        grad(j) = sum(temp) / m;
+    else
+        temp = (h_theta - y) .* X(:,j);
+        grad(j) = sum(temp) / m;
+        grad(j) = grad(j) + (lambda/m)*theta(j);
+    end
+end
 
 
 
