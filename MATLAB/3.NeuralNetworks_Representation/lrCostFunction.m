@@ -36,14 +36,29 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+% *********** Computing the cost function ***********
+z = X*theta; 
+h_theta = sigmoid(z); % Compute the hypothesys function value for each data sample
+A = log(h_theta);
+B = log(1 - h_theta);
+A = -y .* A;
+B = (1 - y) .* B;
 
+J = sum(A - B) ./ m;
 
+% ****** Adding regularization term
 
+Reg_term = (lambda/(2*m)) * ((theta' * theta) - (theta(1)^2)); 
+J = J + Reg_term;
 
+% *********** Computing the gradient ***********
 
+grad = (X' * (h_theta - y)) ./ m;
 
-
-
+% ****** Adding regularization term
+temp = theta;
+temp(1) = 0;
+grad = grad + (lambda/m) .* temp;
 
 % =============================================================
 
