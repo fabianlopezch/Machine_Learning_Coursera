@@ -21,12 +21,32 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% Add ones to the X data matrix
+X = [ones(m, 1) X];
 
+% Computation of z for layer 2
 
+z_2 = Theta1 * X';
 
+% Activation nodes for layer 2
 
+a_2 = sigmoid(z_2);
 
+ones_to_add = ones(1,size(a_2, 2));
 
+a_2 = [ones_to_add ; a_2];
+
+% Computation of z for layer 2
+
+z_3 = Theta2 * a_2;
+
+% Activation nodes for layer 3
+
+a_3 = sigmoid(z_3);
+
+[maximum, index] = max(a_3);
+
+p = index';
 
 
 % =========================================================================
