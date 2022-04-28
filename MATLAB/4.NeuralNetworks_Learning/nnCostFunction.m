@@ -105,17 +105,27 @@ end
 
 J = J/m;
 
+% ********************* REGULARIZED COST FUNCTION ************************
 
+regTerm = 0;
 
+for j=1:hidden_layer_size
+    for k=2:input_layer_size+1
+        regTerm = regTerm + Theta1(j,k)^2;
+    end
+end
 
+for j=1:num_labels
+    for k=2:hidden_layer_size+1
+        regTerm = regTerm + Theta2(j,k)^2;
+    end
+end
 
+regTerm = regTerm * (lambda/(2*m));
 
+% Adding regularization term to J
 
-
-
-
-
-
+J = J + regTerm;
 
 
 % -------------------------------------------------------------
