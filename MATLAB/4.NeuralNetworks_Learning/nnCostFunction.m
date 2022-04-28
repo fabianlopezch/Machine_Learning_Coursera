@@ -63,9 +63,47 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+% *********************** FEEDFORWARD CONST FUNCTION *********************
+%                            (No regularization)
 
 
+% Add ones to the X data matrix
+X = [ones(m, 1) X];
 
+% Computation of z for layer 2
+
+z_2 = Theta1 * X';
+
+% Activation nodes for layer 2
+
+a_2 = sigmoid(z_2);
+
+ones_to_add = ones(1,size(a_2, 2));
+
+a_2 = [ones_to_add ; a_2];
+
+% Computation of z for layer 2
+
+z_3 = Theta2 * a_2;
+
+% Activation nodes for layer 3
+
+a_3 = sigmoid(z_3);
+
+h = a_3; % This (k x m) matrix contains the values of the k-th output unit
+         % for each m-th input sample
+
+for i=1:m
+
+    y_vec = zeros(num_labels,1); % Create the vector of labels
+    y_vec(y(i)) = 1; % Set to one the position corresponding to the i-th input sample
+    for k=1:num_labels
+        % Cost fucntion computation
+        J = J - y_vec(k) * log(h(k,i)) - (1 - y_vec(k)) * log(1 - h(k,i));
+    end
+end
+
+J = J/m;
 
 
 
