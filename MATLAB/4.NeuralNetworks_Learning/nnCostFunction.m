@@ -168,6 +168,24 @@ for t=1:m
     Theta1_grad = (1/m) .* Delta_1;
     Theta2_grad = (1/m) .* Delta_2;
 
+
+
+
+% ********************* REGULARIZED NEURAL NETWORKS **********************
+
+
+% Computing the regularization term
+
+regTermBack = (lambda/m).*Theta1;
+regTermBack(:,1) = zeros(size(Theta1,1),1);
+
+Theta1_grad = Theta1_grad + regTermBack;
+
+regTermBack = (lambda/m).*Theta2;
+regTermBack(:,1) = zeros(size(Theta2,1),1);
+
+Theta2_grad = Theta2_grad + regTermBack;
+
 end
 
 
