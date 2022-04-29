@@ -82,7 +82,7 @@ ones_to_add = ones(1,size(a_2, 2));
 
 a_2 = [ones_to_add ; a_2];
 
-% Computation of z for layer 2
+% Computation of z for layer 3
 
 z_3 = Theta2 * a_2;
 
@@ -126,6 +126,52 @@ regTerm = regTerm * (lambda/(2*m));
 % Adding regularization term to J
 
 J = J + regTerm;
+
+
+% ************************ BACKPROPAGATION ******************************
+
+Delta_1 = zeros(hidden_layer_size, input_layer_size + 1);
+Delta_2 = zeros(num_labels, hidden_layer_size + 1);
+
+for t=1:m
+
+    % STEP 1: Perform feedforward pass for each t-th training example
+    
+    a_1 = X(t,:)';
+    
+    z_2 = Theta1 * a_1;     % Computation of z for layer    
+    a_2 = sigmoid(z_2);     % Activation nodes for layer 2       
+    a_2 = [1; a_2];         % Adding bias unit   
+    z_3 = Theta2 * a_2;     % Computation of z for layer    
+    a_3 = sigmoid(z_3);     % Activation nodes for layer 3 
+
+    % STEP 2: Compute delta for the output layer
+
+    y_vec = zeros(num_labels,1); % Create the vector of labels
+    y_vec(y(t)) = 1; % Set to one the position corresponding to the i-th input sample
+
+    delta_3 = a_3 - y_vec;
+
+    % STEP 3: Compute delta for the hidden layer
+    g_z2_prime = [1; sigmoidGradient(z_2)];
+    delta_2 = Theta2' * delta_3 .* g_z2_prime;
+
+    % STEP 4: Accumulate the gradation from the t-th example
+
+    delta_2 = delta_2(2:end);
+
+    Delta_2 = Delta_2 + delta_3 * a_2';
+    Delta_1 = Delta_1 + delta_2 * a_1';
+
+    % STEP 5: Obtain the (unregularized) gradient for the NN cost function
+
+    Theta1_grad = (1/m) .* Delta_1;
+    Theta2_grad = (1/m) .* Delta_2;
+
+end
+
+
+
 
 
 % -------------------------------------------------------------
