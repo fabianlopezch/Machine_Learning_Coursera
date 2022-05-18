@@ -20,9 +20,13 @@ grad = zeros(size(theta));
 %
 
 
+h = X * theta;          % Evaluating the hypothesis function h(x)
+J = (h - y).^2;         % Computing the squared error
+J = (1/(2*m)) * sum(J); % Summing up the errors and multiplying by (1/2m)
+Reg = theta(2:end)' * theta(2:end); % Computing the summation for the regularization term using dot product and discarding theta_0
+Reg = (lambda/(2*m)) * Reg;
 
-
-
+J = J + Reg;    % Adding the regularization term to our previously computed cost
 
 
 
