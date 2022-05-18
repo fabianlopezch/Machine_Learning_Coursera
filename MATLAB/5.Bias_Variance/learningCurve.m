@@ -54,9 +54,21 @@ error_val   = zeros(m, 1);
 % ---------------------- Sample Solution ----------------------
 
 
+for i=1:m
+    % Train the model using the first i examples: 
+    % - From this, you learn (find) the theta parameters.    
+    [theta] = trainLinearReg([ones(i, 1) X(1:i, :)], y(1:i), lambda);
+    
+    % Recall that training and CV errors do not include the regularization term
 
-
-
+    % Computing training error:
+    %  - Make sure you compute it on the training subset (using only i examples).
+    error_train(i) = linearRegCostFunction([ones(i, 1) X(1:i, :)], y(1:i), theta, 0); % Use lambda = 0
+    
+    % Computing cross validation error:
+    % - You should compute it over the entire cross validation set
+    error_val(i) = linearRegCostFunction([ones(size(Xval, 1), 1) Xval], yval, theta, 0); % Use lambda = 0
+end
 
 
 % -------------------------------------------------------------
