@@ -26,11 +26,17 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+mask = zeros(K,m);  % Mask to extract the appropiate vectors for k-th clusters
+                    % and sum-up their i-th componets
 
+for i=1:K
+    mask(i,:) = (idx == i);
+    mask(i,:) = mask(i,:) * (1 / (sum(mask(i,:)))); % Dividing by the number of
+                                                    % elements belongin to
+                                                    % k-th cluster
+end
 
-
-
-
+centroids = (mask * X);
 
 
 % =============================================================
