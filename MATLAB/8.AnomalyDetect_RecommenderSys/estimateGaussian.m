@@ -22,10 +22,25 @@ sigma2 = zeros(n, 1);
 %
 
 
+% temp = (1/m) .* (sqrt(X)' * sqrt(X));
+% mu = diag(temp);
+% 
+% temp = (X - mu').^2;
+% temp = sqrt(temp);
+% sigma2 = (1/m) .* (temp' * temp);
+% sigma2 = diag(sigma2);
 
+for j=1:m
+    mu = mu + X(j,:)';
+end
 
+mu = (1/m) .* mu;
 
+for j=1:m
+    sigma2 = sigma2 + (X(j,:)' - mu).^2;
+end
 
+sigma2 = (1/m) .* sigma2;
 
 
 
